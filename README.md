@@ -68,16 +68,7 @@ Each batch contains `audio[B,10,1024]`, `vision[B,10,1024]`, `text[C,1024]`, `la
 
 ### Pre-trained models
 
-The trained model is preserved separately as `hschg-v999-repair-v1.pt` (252.6 MB). It contains the temporal reference, trained temporal modules, graph, geometry, class text features, and configuration. A public download link is pending; the repository owner currently provides the file separately.
-
-Place the checkpoint outside the repository, for example at `/path/to/checkpoints/hschg-v999-repair-v1.pt`. Its SHA-256 is:
-
-```text
-9bc7bdc69d4e7eb65ca7ae21de5e1e87b90a2930a7a47cb4efe7a32943a73f7d
-```
-
-The separately preserved `training-state.pt` (698.8 MB) archives the original research-format optimizer, scheduler, and random states. Use `hschg-v999-repair-v1.pt` with this standalone repository.
-
+The trained model is preserved separately as `hschg-v999-repair-v1.pt` (252.6 MB). 
 ### Evaluate the model
 
 Evaluate the checkpoint using the complete cached validation set:
