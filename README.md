@@ -23,21 +23,10 @@ pip install timm==0.4.5 einops==0.6.1 iopath==0.1.10 \
   pytorchvideo==0.1.5 scipy==1.10.1 Pillow==9.5.0
 ```
 
-### Important
-
-Training uses 46 seen classes and `other`. Standard validation and testing use all 67 foreground classes and `other`. Both seen and unseen subsets use predictions from the complete 68-class vocabulary.
-
 ### Preparing features
 
 Follow [OV-AVEL](https://github.com/jasongief/OV-AVEL) for the dataset, class splits, and ImageBind feature extraction. Keep data, checkpoints, and experiment outputs outside this source repository.
 
-If you already have the cache indexes from the current OVAVEL research workspace, convert them into portable manifests:
-
-```bash
-python -m hschg.data --project /path/to/OVAVEL --output /path/to/manifests
-```
-
-This command creates `train.json` and `val.json` without copying or modifying cached features. The default evaluation split is validation.
 
 <details>
 <summary>Manifest format for independently prepared features</summary>
