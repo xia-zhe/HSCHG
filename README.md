@@ -27,8 +27,6 @@ pip install timm==0.4.5 einops==0.6.1 iopath==0.1.10 \
 
 Training uses 46 seen classes and `other`. Standard validation and testing use all 67 foreground classes and `other`. Both seen and unseen subsets use predictions from the complete 68-class vocabulary.
 
-Training reuses cached visual features, text features, and Mel inputs, while the frozen audio encoder runs online. Evaluation reuses frozen audio, visual, and text features. The model computes temporal and graph representations during each forward pass.
-
 ### Preparing features
 
 Follow [OV-AVEL](https://github.com/jasongief/OV-AVEL) for the dataset, class splits, and ImageBind feature extraction. Keep data, checkpoints, and experiment outputs outside this source repository.
