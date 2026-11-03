@@ -1,7 +1,7 @@
 # HSCHG
 ## Open-Vocabulary Audio-Visual Event Localization
 
-The code is based on [OV-AVEL](https://github.com/jasongief/OV-AVEL) and uses frozen [ImageBind](https://github.com/facebookresearch/ImageBind) features. We test this release on Ubuntu with Python 3.10, PyTorch 2.0.1+cu118, and NumPy 1.24.4.
+The code is based on [OV-AVEL](https://github.com/jasongief/OV-AVEL). We test this release on Ubuntu with Python 3.10, PyTorch 2.0.1+cu118, and NumPy 1.24.4.
 
 ### Installation
 
