@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv*/
+*.pt
+*.pth
+*.npz
+*.npy
+*.log
+logs/
+runs/
+reports/
+cache/
+data/
+checkpoints/
+.env
+.env.*
