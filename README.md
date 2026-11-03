@@ -1,8 +1,6 @@
 # HSCHG
 ## Open-Vocabulary Audio-Visual Event Localization
 
-This repository contains the **V999-repair-v1** implementation of HSCHG. The model combines an audio-visual heterogeneous graph with hyperbolic entailment supervision and uses the OV-AVEL prediction head with a training temperature of 0.1. This release includes bounded temporal and graph residuals relative to a frozen baseline reference.
-
 The code is based on [OV-AVEL](https://github.com/jasongief/OV-AVEL) and uses frozen [ImageBind](https://github.com/facebookresearch/ImageBind) features. We test this release on Ubuntu with Python 3.10, PyTorch 2.0.1+cu118, and NumPy 1.24.4.
 
 ### Installation
