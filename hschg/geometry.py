@@ -1,4 +1,4 @@
-"""Lorentz exponential and entailment cost used by V999-repair-v1.
+"""Lorentz exponential and entailment cost used by HSCHG.
 
 Scalar geometry calculations use FP64; model parameters remain FP32.
 Role-specific radii and the bounded shared map are defined in model.py.
@@ -16,7 +16,7 @@ def exp_map0(q, curvature):
     time = torch.where(small, 1+r2/2+r2.square()/24, safe.cosh())/math.sqrt(curvature)
     result = torch.cat((time, scale*q), -1)
     if not torch.isfinite(result).all():
-        raise FloatingPointError('V999 Lorentz exponential is nonfinite; no silent radius clamp')
+        raise FloatingPointError('Lorentz exponential is nonfinite')
     return result
 
 
@@ -34,5 +34,5 @@ def entailment_cost(parent, child, curvature, kappa, epsilon):
     aperture = aperture_arg.clamp(-1+epsilon, 1-epsilon).asin()
     cost = (theta-aperture).clamp_min(0)
     if not torch.isfinite(cost).all():
-        raise FloatingPointError('Nonfinite PDF entailment cost')
+        raise FloatingPointError('Nonfinite entailment cost')
     return cost

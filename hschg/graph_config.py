@@ -4,7 +4,7 @@ from dataclasses import asdict, dataclass
 
 @dataclass(frozen=True)
 class ModelConfig:
-    version: str = 'V999'
+    version: str = 'HSCHG'
     feature_dim: int = 1024
     graph_enabled: bool = True
     graph_layers: int = 4
@@ -25,7 +25,7 @@ class ModelConfig:
     initialization_seed: int = 999123
 
     def __post_init__(self):
-        if self.version != 'V999' or self.feature_dim < 1:
+        if self.version != 'HSCHG' or self.feature_dim < 1:
             raise ValueError('Invalid version/dimension')
         if self.graph_layers < 1 or len(self.cross_scales) != self.graph_layers:
             raise ValueError('One explicit fixed scale per independent graph layer is required')

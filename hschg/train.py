@@ -1,4 +1,4 @@
-"""One-epoch training of the released repair on cached visual/text/Mel inputs."""
+"""Train HSCHG on cached visual/text/Mel inputs."""
 import argparse,json,os,random,signal,time
 from pathlib import Path
 import numpy as np
@@ -86,7 +86,7 @@ def main():
     metrics,arrays=evaluate(model,a.val_manifest,a.device)
     if state['steps']!=412:raise ValueError('Incomplete training')
     scheduler.step();state.update(phase='completed',metrics=metrics);save()
-    save_atomic(portable_state(model,dict(metrics=metrics,seed=123,baseline_updates=412,repair_updates=412,test_used=False)),output/'model.pt')
+    save_atomic(portable_state(model,dict(metrics=metrics,seed=123,baseline_updates=412,adaptation_updates=412,test_used=False)),output/'model.pt')
     print(json.dumps(dict(validation=metrics,steps=412,checkpoint=str(output/'model.pt')),indent=2))
 
 

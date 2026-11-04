@@ -5,14 +5,14 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from .heads import official_head, isolated_cpu_seed
-from .graph_config import ModelConfig as PaperConfig
+from .graph_config import ModelConfig as GraphConfig
 from .graph import HeterogeneousGraph
 from .geometry import exp_map0, entailment_cost
 
 
 @dataclass(frozen=True)
 class Config:
-    version: str = 'V999-repair-v1'
+    version: str = 'HSCHG'
     feature_dim: int = 1024
     graph_enabled: bool = True
     temporal_bound: float = .1
@@ -67,7 +67,7 @@ class Geometry(nn.Module):
         return entailment_cost(parent,child,c.curvature,c.aperture_kappa,c.epsilon)
 
 
-class Repair(nn.Module):
+class GraphHead(nn.Module):
     def __init__(self,config,seen_text,seen_ids,video_text=None):
         super().__init__();self.config=config;self.seen_ids=tuple(seen_ids)
         if len(set(seen_ids))!=len(seen_ids) or self.seen_ids.count('other')!=1:
@@ -82,7 +82,7 @@ class Repair(nn.Module):
             if video_text is None or video_text.shape!=(len(foreground),config.feature_dim):raise ValueError('Video text shape')
             self.register_buffer('video_text',video_text.detach().cpu().clone())
             with isolated_cpu_seed(config.initialization_seed):
-                self.graph=HeterogeneousGraph(PaperConfig(feature_dim=config.feature_dim))
+                self.graph=HeterogeneousGraph(GraphConfig(feature_dim=config.feature_dim))
                 self.output_audio=nn.Linear(config.feature_dim,config.feature_dim,bias=False)
                 self.output_vision=nn.Linear(config.feature_dim,config.feature_dim,bias=False)
                 nn.init.zeros_(self.output_audio.weight);nn.init.zeros_(self.output_vision.weight)

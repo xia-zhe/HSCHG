@@ -3,7 +3,7 @@ import copy
 from pathlib import Path
 import torch
 from torch import nn
-from .model import Config,Repair
+from .model import Config,GraphHead
 from .temporal import TemporalAttentionModule
 
 
@@ -20,7 +20,7 @@ class HSCHG(nn.Module):
         self.config=config
         self.reference=make_temporal().eval().requires_grad_(False)
         self.temporal=make_temporal()
-        self.head=Repair(config,seen_text,seen_ids,video_text)
+        self.head=GraphHead(config,seen_text,seen_ids,video_text)
 
     def train(self,mode=True):
         super().train(mode)
@@ -38,11 +38,15 @@ class HSCHG(nn.Module):
 
 
 def load_model(path,device='cpu',fresh=False):
-    """Load trusted portable weights. fresh=True restarts repair from frozen B0."""
+    """Load portable weights; fresh=True initializes from the baseline reference."""
     ck=torch.load(Path(path),map_location='cpu')
-    if ck.get('format')!='hschg-v999-repair-v1':
-        raise ValueError('Expected the portable V999-repair-v1 checkpoint')
-    config=Config(**ck['config']);ids=ck['seen_ids'];state=ck['model']
+    tag=ck.get('format','')
+    if not isinstance(tag,str) or not (tag=='hschg' or tag.startswith('hschg-')) or not {'config','seen_ids','model'}<=ck.keys():
+        raise ValueError('Expected a portable HSCHG checkpoint')
+    # Normalize metadata from earlier portable exports; parameter keys stay fixed.
+    config=Config(**{**ck['config'],'version':'HSCHG'})
+    ck={**ck,'format':'hschg','config':config.to_dict()}
+    ids=ck['seen_ids'];state=ck['model']
     model=HSCHG(config,state['head.seen_text'],ids,state['head.video_text'])
     if fresh:
         reference={k[len('reference.'):]:v for k,v in state.items() if k.startswith('reference.')}
@@ -55,7 +59,7 @@ def load_model(path,device='cpu',fresh=False):
 
 
 def portable_state(model,metadata=None):
-    return dict(format='hschg-v999-repair-v1',config=model.config.to_dict(),
+    return dict(format='hschg',config=model.config.to_dict(),
         seen_ids=list(model.head.seen_ids),
         model={k:v.detach().cpu().clone() for k,v in model.state_dict().items()},
         metadata=metadata or {})

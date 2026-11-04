@@ -55,11 +55,11 @@ def validation_batches(manifest):
 def worker_init(unused):torch.set_num_threads(1)
 
 
-def convert_cache(project,output,split='val'):
+def convert_cache(project,output,training_index,split='val'):
     """Read existing immutable OV-AVEL caches; write only lightweight manifests."""
     project=Path(project).resolve();output=Path(output).resolve();output.mkdir(parents=True,exist_ok=True)
     if any(output.iterdir()):raise ValueError('Use a new empty manifest output directory')
-    index=json.loads((project/'reports/v999_repair_v1/training_index.json').read_text())
+    index=json.loads(Path(training_index).read_text())
     entries=[dict(video=e['row']['vid_name'],mel=str(project/e['mel']),mel_sha256=e['mel_sha256'],
           vision=str(project/e['visual']),vision_sha256=e['visual_sha256'],target=e['target']) for e in index['entries']]
     train=dict(format='hschg-training-v1',split='train',candidate_ids=index['identity']['candidate_ids'],entries=entries)
@@ -83,4 +83,5 @@ def convert_cache(project,output,split='val'):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--project',required=True);p.add_argument('--output',required=True)
-    p.add_argument('--split',choices=['val','test'],default='val');a=p.parse_args();convert_cache(a.project,a.output,a.split)
+    p.add_argument('--training-index',required=True,help='Path to the existing training cache index')
+    p.add_argument('--split',choices=['val','test'],default='val');a=p.parse_args();convert_cache(a.project,a.output,a.training_index,a.split)

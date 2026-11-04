@@ -68,14 +68,14 @@ Each batch contains `audio[B,10,1024]`, `vision[B,10,1024]`, `text[C,1024]`, `la
 
 ### Pre-trained models
 
-The trained model is preserved separately as `hschg-v999-repair-v1.pt` (252.6 MB). 
+The trained model is preserved separately as `hschg.pt` (252.6 MB).
 ### Evaluate the model
 
 Evaluate the checkpoint using the complete cached validation set:
 
 ```bash
 python -m hschg.evaluate \
-  --checkpoint /path/to/checkpoints/hschg-v999-repair-v1.pt \
+  --checkpoint /path/to/checkpoints/hschg.pt \
   --manifest /path/to/manifests/val.json --device cpu
 ```
 
@@ -83,7 +83,7 @@ For single-batch inference, prepare a `.pt` file containing `audio`, `vision`, `
 
 ```bash
 python -m hschg.predict \
-  --checkpoint /path/to/checkpoints/hschg-v999-repair-v1.pt \
+  --checkpoint /path/to/checkpoints/hschg.pt \
   --features /path/to/features.pt --device cpu
 ```
 
@@ -108,7 +108,7 @@ Choose an available GPU and run:
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 python -m hschg.train \
-  --checkpoint /path/to/checkpoints/hschg-v999-repair-v1.pt \
+  --checkpoint /path/to/checkpoints/hschg.pt \
   --train-manifest /path/to/manifests/train.json \
   --val-manifest /path/to/manifests/val.json \
   --imagebind-source /path/to/OV-AVEL-upstream/proposed_method/ImageBind-main \
@@ -116,9 +116,9 @@ CUDA_VISIBLE_DEVICES=0 python -m hschg.train \
   --output /path/to/experiment --device cuda:0 --workers 4
 ```
 
-This command initializes the trainable model from the checkpoint's frozen T=0.1 baseline reference and initializes fresh repair modules. It uses seed 123, Adam with learning rate `5e-5`, batch size 32, and one epoch of 412 updates. Training uses FP32, FP64 geometry scalars, temporal dropout 0.1, separate gradient clipping at 0.8, and MultiStepLR milestones `[10,20,30]` with factor 0.5. The loader uses four workers, one thread per worker, and prefetch factor one.
+This command initializes the trainable model from the checkpoint's frozen T=0.1 baseline reference and initializes fresh graph adaptation modules. It uses seed 123, Adam with learning rate `5e-5`, batch size 32, and one epoch of 412 updates. Training uses FP32, FP64 geometry scalars, temporal dropout 0.1, separate gradient clipping at 0.8, and MultiStepLR milestones `[10,20,30]` with factor 0.5. The loader uses four workers, one thread per worker, and prefetch factor one.
 
-The baseline reference already receives 412 updates before repair training, giving 824 updates across the two stages. Progress prints every 10 batches and `last.pt` saves every 25 batches. Append `--resume` to resume from the next committed training batch. The completed run saves a portable `model.pt` in the output directory.
+The baseline reference already receives 412 updates before HSCHG training, giving 824 updates across the two stages. Progress prints every 10 batches and `last.pt` saves every 25 batches. Append `--resume` to resume from the next committed training batch. The completed run saves a portable `model.pt` in the output directory.
 
 ## Results
 
