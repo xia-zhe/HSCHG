@@ -58,7 +58,6 @@ Training starts from the checkpoint's baseline reference: 412 baseline updates f
 | Unseen | 67.3532 | 56.8744 | 49.1569 | 57.7948 |
 | Total | 69.4278 | 58.9563 | 51.5111 | **59.9651** |
 
-Results cover all 5,820 test videos using the seed-123 checkpoint and official batch-32 F1 aggregation. Avg is the mean of the three metrics. On validation, HSCHG achieves 59.8080% total Avg and the T=0.1 baseline achieves 59.8487%.
 
 ## Project Structure
 
