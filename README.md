@@ -58,8 +58,6 @@ Training starts from the checkpoint's baseline reference: 412 baseline updates f
 | Unseen | 65.6 | 55.7 | 48.2 | 56.5 |
 | Total | 68.5 | 58.8 | 51.6 | **59.7** |
 
-The table reproduces the results reported in the supplied manuscript. The current `hschg.pt` checkpoint has measured test Avg scores of 65.3564%, 57.7948%, and 59.9651% on seen, unseen, and total categories, respectively; it does not reproduce the manuscript values above.
-
 ## Project Structure
 
 `hschg/model.py`, `graph.py`, `geometry.py`, `temporal.py`, `heads.py`, `network.py`, `graph_config.py` - Model and configuration.
