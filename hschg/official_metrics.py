@@ -1,36 +1,5 @@
+"""OV-AVEL segment and event metrics required by this release."""
 import numpy as np
-import pdb
-
-
-def Precision(X_pre, X_gt):
-
-    N = len(X_pre)
-    p = 0.0
-    for i in range(N):
-        x = X_pre[i, :]
-        y = X_gt[i, :]
-        p += np.sum(x*y)/np.sum(x)
-    return p/N
-
-
-def Recall(X_pre, X_gt):
-    N = len(X_pre)
-    p = 0.0
-    for i in range(N):
-        x = X_pre[i, :]
-        y = X_gt[i, :]
-        p += np.sum(x * y) / np.sum(y)
-    return p/N
-
-
-def F1(X_pre, X_gt):
-    N = len(X_pre)
-    p = 0
-    for i in range(N):
-        x = X_pre[i, :]
-        y = X_gt[i, :]
-        p += 2*np.sum(x * y) / (np.sum(x) + np.sum(y))
-    return p/N
 
 def event_level(SO_av, GT_av):
     # extract events
@@ -68,7 +37,6 @@ def event_level(SO_av, GT_av):
         f_av = 1.0 # all true negatives
     else:
         f_av = (sum(F_av)/len(F_av))
-    # pdb.set_trace()
 
     return f_av
 
@@ -80,18 +48,15 @@ def segment_level(SO_av, GT_av):
     FN_av = np.sum((1 - SO_av) * GT_av, axis=1)
     FP_av = np.sum(SO_av * (1 - GT_av), axis=1)
     n = len(FP_av)
-    # pdb.set_trace()
     F_av = []
     for ii in range(n):
         if (TP_av + FP_av)[ii] != 0 or (TP_av + FN_av)[ii] != 0:
             F_av.append(2 * TP_av[ii] / (2 * TP_av[ii] + (FN_av + FP_av)[ii]))
-    # pdb.set_trace()
 
     if len(F_av) == 0:
         f_av = 1.0 # all true negatives
     else:
         f_av = (sum(F_av)/len(F_av))
-    # pdb.set_trace()
 
     return f_av
 
@@ -152,7 +117,6 @@ def event_wise_metric(event_p, event_gt):
                     FP += 1
             else:
                 FP += 1
-        # pdb.set_trace()
 
     if event_gt is not None:
         num_event = len(event_gt)
@@ -170,5 +134,4 @@ def event_wise_metric(event_p, event_gt):
                     FN += 1
             else:
                 FN += 1
-        # pdb.set_trace()
     return TP, FP, FN

@@ -44,7 +44,3 @@ class ModelConfig:
 
     def to_dict(self):
         return asdict(self)
-
-
-def baseline_config():
-    return ModelConfig(graph_enabled=False, entailment_weight=0.)

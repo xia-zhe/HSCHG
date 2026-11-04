@@ -1,12 +1,10 @@
-"""PDF Eqs.11-14, full Lorentz coordinates and a fixed negative curvature.
+"""Lorentz exponential and entailment cost used by V999-repair-v1.
 
-The auxiliary geometry uses FP64 for scalar norm/angle calculations. Model
-parameters and main prediction remain FP32. No radius clipping, tanh mapping,
-learned curvature or modality-specific scale is added to the PDF objective.
+Scalar geometry calculations use FP64; model parameters remain FP32.
+Role-specific radii and the bounded shared map are defined in model.py.
 """
 import math
 import torch
-from torch import nn
 
 
 def exp_map0(q, curvature):
@@ -38,21 +36,3 @@ def entailment_cost(parent, child, curvature, kappa, epsilon):
     if not torch.isfinite(cost).all():
         raise FloatingPointError('Nonfinite PDF entailment cost')
     return cost
-
-
-class SharedLorentz(nn.Module):
-    def __init__(self, config):
-        super().__init__()
-        self.config = config
-        self.projection = nn.Linear(config.feature_dim, config.feature_dim, bias=False)
-        # Missing from PDF; reproduce the old source's initial D^-1/2 scaling,
-        # now as the one shared trainable W explicitly required by the PDF.
-        with torch.no_grad():
-            self.projection.weight.copy_(torch.eye(config.feature_dim)/math.sqrt(config.feature_dim))
-
-    def forward(self, value):
-        return exp_map0(self.projection(value), self.config.curvature)
-
-    def cost(self, parent, child):
-        c = self.config
-        return entailment_cost(parent, child, c.curvature, c.aperture_kappa, c.epsilon)
