@@ -13,7 +13,7 @@ pip install numpy==1.24.4
 
 ### Preparing features
 
-Follow [OV-AVEL](https://github.com/jasongief/OV-AVEL) for the dataset, class splits, and ImageBind features. Prepare `train.json` and `val.json` using the cache manifest format in [hschg/data.py](hschg/data.py). Keep features and checkpoints outside this repository.
+Follow [OV-AVEL](https://github.com/jasongief/OV-AVEL) for the dataset, class splits, and ImageBind features. Prepare `train.json`, `val.json`, and `test.json` using the cache manifest format in [hschg/data.py](hschg/data.py). Keep features and checkpoints outside this repository.
 
 ## Evaluation
 
@@ -25,7 +25,7 @@ The trained model is provided separately as `hschg.pt` (252.6 MB).
 
 ```bash
 python -m hschg.evaluate --checkpoint /path/to/hschg.pt \
-  --manifest /path/to/val.json --device cpu
+  --manifest /path/to/test.json --device cpu
 ```
 
 ## Training
@@ -50,15 +50,15 @@ Training starts from the checkpoint's baseline reference: 412 baseline updates f
 
 ## Results
 
-### Validation performance (%)
+### Test performance (%)
 
 | Split | Accuracy | Segment F1 | Event F1 | Avg |
 |---|---:|---:|---:|---:|
-| Seen | 72.9800 | 62.6688 | 55.7255 | 63.7914 |
-| Unseen | 67.4343 | 57.3437 | 49.4426 | 58.0735 |
-| Total | 69.0135 | 58.9995 | 51.4110 | **59.8080** |
+| Seen | 74.6094 | 64.1080 | 57.3519 | 65.3564 |
+| Unseen | 67.3532 | 56.8744 | 49.1569 | 57.7948 |
+| Total | 69.4278 | 58.9563 | 51.5111 | **59.9651** |
 
-Results use seed 123 and official batch-32 F1 aggregation. Avg is the mean of the three metrics. The T=0.1 baseline total Avg is 59.8487%. Test results are pending.
+Results cover all 5,820 test videos using the seed-123 checkpoint and official batch-32 F1 aggregation. Avg is the mean of the three metrics. On validation, HSCHG achieves 59.8080% total Avg and the T=0.1 baseline achieves 59.8487%.
 
 ## Project Structure
 
