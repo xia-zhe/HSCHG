@@ -50,14 +50,15 @@ Training starts from the checkpoint's baseline reference: 412 baseline updates f
 
 ## Results
 
-### Test performance (%)
+### Manuscript-reported test performance (%)
 
 | Split | Accuracy | Segment F1 | Event F1 | Avg |
 |---|---:|---:|---:|---:|
-| Seen | 74.6094 | 64.1080 | 57.3519 | 65.3564 |
-| Unseen | 67.3532 | 56.8744 | 49.1569 | 57.7948 |
-| Total | 69.4278 | 58.9563 | 51.5111 | **59.9651** |
+| Seen | 76.4 | 66.8 | 63.1 | 68.8 |
+| Unseen | 65.6 | 55.7 | 48.2 | 56.5 |
+| Total | 68.5 | 58.8 | 51.6 | **59.7** |
 
+The table reproduces the results reported in the supplied manuscript. The current `hschg.pt` checkpoint has measured test Avg scores of 65.3564%, 57.7948%, and 59.9651% on seen, unseen, and total categories, respectively; it does not reproduce the manuscript values above.
 
 ## Project Structure
 
