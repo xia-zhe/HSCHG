@@ -19,7 +19,7 @@ Follow [OV-AVEL](https://github.com/jasongief/OV-AVEL) for the dataset, class sp
 
 ### Pre-trained model
 
-The trained model is provided separately as `hschg.pt` (252.6 MB).
+Download the pre-trained model [hschg.pt (252.6 MB)](https://1drv.ms/u/c/1f73f955658e450a/IQBWxGclXRXWT5lEAxdh1RBGAVRU0-aJFX7RVF2WYunRECc?e=H83uLl) from OneDrive.
 
 ### Evaluate HSCHG
 
